@@ -66,7 +66,7 @@
     border: 2px solid #343434;
 }
 
-.copy:hover {
+.copy:active {
     transform: translate(6px, 6px);
     box-shadow: 0 0 0 #000;
 }
@@ -87,7 +87,7 @@
     <div class="card">
         <div class="card-header">
             <span>one tap</span>
-            <button class="copy">Copy</button>
+            <button onclick="copyLink()" class="copy">Copy</button>
         </div>
 
         <img src="https://tr.rbxcdn.com/180DAY-a3b7486513c2f5f78c14a24efd5d6c35/768/432/Image/Webp/noFilter">
@@ -95,8 +95,8 @@
 
     <div class="card">
         <div class="card-header">
-            <span>Rig Rig</span>
-            <button class="copy">Copy</button>
+            <span>fps counter</span>
+            <button onclick="copyLink1()" class="copy">Copy</button>
         </div>
 
         <img src="https://i.kym-cdn.com/editorials/icons/original/000/012/954/rigrig.jpg">
@@ -104,12 +104,19 @@
 </div>
     </body>
     <script>
+    const scriptText = `loadstring(game:HttpGet("https://api.rigbyhub.xyz/script/loader.lua"))()`;
+    const scriptText1 = `loadstring(game:HttpGet("https://pastebin.com/raw/K7ye4vSQ"))()`
 
 
+    function copyLink() {
+        navigator.clipboard.writeText(scriptText)
+            .catch(err => console.error("Failed to copy:", err));
+}
 
-    </script>
+    function copyLink1() {
+        navigator.clipboard.writeText(scriptText1)
+            .catch(err => console.error("Failed to copy:", err));
+}
+
+</script>
 </html>
-
-
-
-# rest of ts code will be added once im not lazy
